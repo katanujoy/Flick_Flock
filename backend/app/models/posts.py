@@ -13,5 +13,10 @@ class Posts(db.Model, Serializermixin):
     rating = db.Column(db.Integer)
     created_at = db.Column(db.DateTime, default=func.now())
 
+    # Relationships
+    user = db.relationship("User", back_populates = "posts")
+    club = db.relationship("Club", back_populates = "posts")
+    movie_series = db.relationship("Movie_series", back_populates = "posts")
+
     def __repr__(self):
-        return f"<Post id={self.id} || user_id:{self.user_id} || post_id:{self.post_id} || movies_series_id:{self.movies_series_id} ||content={self.content} || rating={self.rating} || timestamp={self.created_at}
+        return f"<Post id={self.id} || user_id:{self.user_id} || post_id:{self.post_id} || movies_series_id:{self.movies_series_id} ||content={self.content} || rating={self.rating} || timestamp={self.created_at}"

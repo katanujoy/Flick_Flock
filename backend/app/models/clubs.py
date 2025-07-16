@@ -12,5 +12,10 @@ class Clubs(db.Model, Serializermixin):
     created_by = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     created_at = db.Column(db.DateTime, default=func.now())
 
+
+    # Relationships
+    user = db.relationship("User", back_populates = "clubs")
+
+
     def __repr__(self):
         return f"<Club id={self.id}, name={self.name}, description={self.description}, genre={self.genre}, created_by={self.created_by}, created_at={self.created_at}>"

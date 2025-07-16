@@ -8,9 +8,14 @@ class Recommendation(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     movie_series_id = db.Column(db.Integer, db.ForeignKey('movie_series.id'), nullable=False)
-
     recommended_reason = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=func.now())
+
+
+    # Relationships
+    user = db.relationship("User", back_populates = "recommendations")
+    movie_series = db.relationship("Movie_series", back_populates = "recommendations")
+
 
     def __repr__(self):
         return (
