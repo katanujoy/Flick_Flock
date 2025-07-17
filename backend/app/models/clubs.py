@@ -2,7 +2,7 @@ from ..config import db
 from sqlalchemy import func
 from sqlalchemy_serializer import Serializermixin
 
-class Clubs(db.Model, Serializermixin):
+class Club(db.Model, Serializermixin):
     __tablename__ = "clubs"
 
     id = db.Column(db.Integer, primary_key=True)

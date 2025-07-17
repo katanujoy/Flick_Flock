@@ -2,7 +2,7 @@ from ..config import db
 from sqlalchemy import func
 from sqlalchemy_serializer import Serializermixin
 
-class Posts(db.Model, Serializermixin):
+class Post(db.Model, Serializermixin):
     __tablename__ = "posts"
 
     id = db.Column(db.Integer, primary_key=True)
