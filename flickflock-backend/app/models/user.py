@@ -1,7 +1,8 @@
 from app import db
 
-# Association table for user likes (many-to-many)
-user_likes = db.Table('user_likes',
+# Association table for user likes (many-to-many with MovieSeries)
+user_likes = db.Table(
+    'user_likes',
     db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
     db.Column('content_id', db.Integer, db.ForeignKey('movies_series.id'), primary_key=True)
 )
@@ -16,7 +17,11 @@ class User(db.Model):
 
     # Relationships
     reviews = db.relationship('Review', back_populates='user', cascade="all, delete-orphan")
-    liked_content = db.relationship('MovieSeries', secondary=user_likes, back_populates='liked_by_users')
+    liked_content = db.relationship(
+        'MovieSeries',
+        secondary=user_likes,
+        back_populates='liked_by_users'
+    )
 
     def __repr__(self):
-        return f'<User {self.username}>'
+        return f"<User {self.username}>"
