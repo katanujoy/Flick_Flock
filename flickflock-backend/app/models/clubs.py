@@ -1,4 +1,4 @@
-from ..config import db
+from app import db
 from sqlalchemy import func
 from sqlalchemy_serializer import Serializermixin
 

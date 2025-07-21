@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
 from models.recommendations import Recommendation
-from ..config import db
+from app import db
 
 class RecommendationResource(Resource):
     def get(self):

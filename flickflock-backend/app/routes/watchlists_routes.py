@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
 from models.watchlist import Watchlist
-from ..config import db
+from app import db
 
 class WatchlistResource(Resource):
     def get(self):

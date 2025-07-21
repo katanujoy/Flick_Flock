@@ -1,8 +1,7 @@
 from flask import request
 from flask_restful import Resource
 from models.posts import Post
-from ..config import db
-from datetime import datetime
+from app import db
 
 class PostResource(Resource):
     

@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from flask import request
 from models.clubs import Club
-from ..config import db
+from app import db
 
 class ClubRoute(Resource):
     def get(self):
