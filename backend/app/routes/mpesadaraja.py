@@ -35,7 +35,7 @@ class MembershipResource(Resource):
 
         # Inputs data
         phoneNumber = data.get("phoneNumber")
-        amount = data.get("amount")s
+        amount = data.get("amount")
 
         if not all([phoneNumber,amount]):
             return {f"error": "Missing phone number or amount"}, 400
