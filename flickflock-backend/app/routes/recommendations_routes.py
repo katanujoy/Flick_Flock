@@ -2,12 +2,17 @@ from flask import request
 from flask_restful import Resource
 from models.recommendations import Recommendation
 from app import db
+from flask_jwt_extended import jwt_required
+
 
 class RecommendationResource(Resource):
+
+    @jwt_required
     def get(self):
         recommendations = Recommendation.query.all()
         return [recommendation.to_dict() for recommendation in recommendations], 200
 
+    @jwt_required
     def post(self):
         data = request.get_json()
 
@@ -28,6 +33,7 @@ class RecommendationResource(Resource):
         db.session.commit()
         return recommendation.to_dict(), 201
 
+    @jwt_required
     def patch(self):
         data = request.get_json()
         recommendation_id = data.get("id")
@@ -42,7 +48,8 @@ class RecommendationResource(Resource):
         recommendation.recommended_reason = data.get("recommended_reason", recommendation.recommended_reason)
         db.session.commit()
         return recommendation.to_dict(), 200
-    
+
+    @jwt_required   
     def delete(self):
         data = request.get_json()
         recommendation_id = data.get("id")

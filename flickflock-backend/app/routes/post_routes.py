@@ -2,13 +2,17 @@ from flask import request
 from flask_restful import Resource
 from models.posts import Post
 from app import db
+from flask_jwt_extended import jwt_required
+
 
 class PostResource(Resource):
-    
+
+    @jwt_required
     def get(self):
         posts = Post.query.all()
         return [post.to_dict() for post in posts], 200
 
+    @jwt_required
     def post(self):
         data = request.get_json()
 
@@ -35,6 +39,7 @@ class PostResource(Resource):
 
         return new_post.to_dict(), 201
 
+    @jwt_required
     def patch(self):
         data = request.get_json()
 
@@ -56,7 +61,8 @@ class PostResource(Resource):
 
         db.session.commit()
         return post.to_dict(), 200
-    
+
+    @jwt_required 
     def delete(self):
         data = request.get_json()
 

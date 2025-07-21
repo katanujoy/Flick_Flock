@@ -2,8 +2,10 @@ from flask_restful import Resource
 from flask import request
 from models.clubs import Club
 from app import db
+from flask_jwt_extended import jwt_required
 
 class ClubRoute(Resource):
+    @jwt_required
     def get(self):
         clubs = Club.query.all()
         return [club.to_dict() for club in clubs], 200
@@ -24,6 +26,7 @@ class ClubRoute(Resource):
 
         return new_club.to_dict(), 201
 
+    @jwt_required
     def patch(self):
         data = request.get_json()
 
@@ -47,6 +50,7 @@ class ClubRoute(Resource):
 
         return club.to_dict(), 200
 
+    @jwt_required
     def delete(self):
         data = request.get_json()
 

@@ -1,14 +1,18 @@
-from flask import request, jsonify
+from flask import request
 from flask_restful import Resource
 from models.comments import Comment  
 from app import db
+from flask_jwt_extended import jwt_required
+
 
 class CommentResource(Resource):
 
+    @jwt_required
     def get(self):
         comments = Comment.query.all()
         return [comment.to_dict() for comment in comments], 200
 
+    @jwt_required
     def post(self):
         data = request.get_json()
 
@@ -30,6 +34,7 @@ class CommentResource(Resource):
 
         return comment.to_dict(), 201
 
+    @jwt_required
     def patch(self):
         data = request.get_json()
         comment_id = data.get("id")
@@ -48,7 +53,8 @@ class CommentResource(Resource):
 
         db.session.commit()
         return comment.to_dict(), 200
-    
+
+    @jwt_required   
     def delete(self):
         data = request.get_json()
 

@@ -2,12 +2,17 @@ from flask import request
 from flask_restful import Resource
 from models.watchlist import Watchlist
 from app import db
+from flask_jwt_extended import jwt_required
+
 
 class WatchlistResource(Resource):
+
+    @jwt_required
     def get(self):
         watchlists = Watchlist.query.all()
         return [watchlist.to_dict() for watchlist in watchlists], 200
 
+    @jwt_required
     def post(self):
         data = request.get_json()
 
@@ -29,7 +34,8 @@ class WatchlistResource(Resource):
         db.session.add(watchlist)
         db.session.commit()
         return watchlist.to_dict(), 201
-    
+
+    @jwt_required   
     def delete(self):
         data = request.get_json()
         watchlist_id = data.get("id")
