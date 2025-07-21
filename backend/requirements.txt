@@ -1,4 +1,0 @@
-flask_sqlalchemy
-sqlalchemy
-sqlalchemy_serializer
-flask_restful
