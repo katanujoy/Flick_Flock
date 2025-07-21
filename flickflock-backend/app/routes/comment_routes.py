@@ -48,3 +48,26 @@ class CommentResource(Resource):
 
         db.session.commit()
         return comment.to_dict(), 200
+    
+    def delete(self):
+        data = request.get_json()
+
+        comment_id = data.get("id")
+        if not comment_id:
+            return {
+                "error": "Comment ID is required"
+            }, 400
+
+
+        comment = Comment.query.get(comment_id)
+        if not comment:
+            return {
+                "error": "Comment not found"
+            }, 404
+
+        comment_dict = comment.to_dict()
+
+        db.session.delete(comment)
+        db.session.commit()
+
+        return comment_dict, 200

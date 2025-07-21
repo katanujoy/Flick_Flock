@@ -57,3 +57,20 @@ class PostResource(Resource):
 
         db.session.commit()
         return post.to_dict(), 200
+    
+    def delete(self):
+        data = request.get_json()
+
+        post_id = data.get("id")
+        if not post_id:
+            return {"error": "Psot ID not found"}, 404
+        
+        post = Post.query.get_or_404(post_id, description = "Post not found")
+
+        post_dict = post.to_dict()
+
+        db.session.delete(post)
+        db.session.commit()
+
+        return post_dict, 200
+

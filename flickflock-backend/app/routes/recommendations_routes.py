@@ -42,3 +42,19 @@ class RecommendationResource(Resource):
         recommendation.recommended_reason = data.get("recommended_reason", recommendation.recommended_reason)
         db.session.commit()
         return recommendation.to_dict(), 200
+    
+    def delete(self):
+        data = request.get_json()
+        recommendation_id = data.get("id")
+
+        if not recommendation_id:
+            return {"message": "Recommendation ID is required"}, 400
+
+        recommendation = Recommendation.query.get_or_404(recommendation_id, description="Recommendation not found")
+        recommendation_dict = recommendation.to_dict()
+
+        db.session.delete(recommendation)
+        db.session.commit()
+
+        return recommendation_dict, 200
+

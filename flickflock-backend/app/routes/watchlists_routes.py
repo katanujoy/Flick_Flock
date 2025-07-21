@@ -29,5 +29,20 @@ class WatchlistResource(Resource):
         db.session.add(watchlist)
         db.session.commit()
         return watchlist.to_dict(), 201
+    
+    def delete(self):
+        data = request.get_json()
+        watchlist_id = data.get("id")
+
+        if not watchlist_id:
+            return {"message": "Watchlist ID is required"}, 400
+
+        watchlist = Watchlist.query.get_or_404(watchlist_id, description="Watchlist entry not found")
+        watchlist_dict = watchlist.to_dict()
+
+        db.session.delete(watchlist)
+        db.session.commit()
+
+        return watchlist_dict, 200
 
    
