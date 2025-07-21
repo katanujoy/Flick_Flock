@@ -14,7 +14,10 @@ class Club(db.Model, Serializermixin):
 
 
     # Relationships
-    user = db.relationship("User", back_populates = "clubs")
+    user = db.relationship("User", back_populates="clubs")
+    posts = db.relationship("Post", back_populates="club", cascade="all, delete-orphan")
+    memberships = db.relationship("Membership", back_populates="club", cascade="all, delete-orphan")
+
 
 
     def __repr__(self):
