@@ -3,19 +3,24 @@
 from flask import Blueprint, request, jsonify
 from app.models.membership import Membership
 from app import db
+from flask_jwt_extended import jwt_required
+
 
 membership_bp = Blueprint('membership_bp', __name__)
 
+@jwt_required
 @membership_bp.route('/memberships', methods=['GET'])
 def get_memberships():
     memberships = Membership.query.all()
     return jsonify([m.serialize() for m in memberships])
 
+@jwt_required
 @membership_bp.route('/memberships/<int:id>', methods=['GET'])
 def get_membership(id):
     membership = Membership.query.get_or_404(id)
     return jsonify(membership.serialize())
 
+@jwt_required
 @membership_bp.route('/memberships', methods=['POST'])
 def create_membership():
     data = request.get_json()
@@ -24,6 +29,7 @@ def create_membership():
     db.session.commit()
     return jsonify(membership.serialize()), 201
 
+@jwt_required
 @membership_bp.route('/memberships/<int:id>', methods=['PATCH'])
 def update_membership(id):
     membership = Membership.query.get_or_404(id)
@@ -33,6 +39,7 @@ def update_membership(id):
     db.session.commit()
     return jsonify(membership.serialize())
 
+@jwt_required
 @membership_bp.route('/memberships/<int:id>', methods=['DELETE'])
 def delete_membership(id):
     membership = Membership.query.get_or_404(id)

@@ -1,8 +1,8 @@
-from ..config import db
+from app import db
 from sqlalchemy import func
-from sqlalchemy_serializer import Serializermixin
+from sqlalchemy_serializer import SerializerMixin
 
-class Comment(db.Model, Serializermixin):
+class Comment(db.Model, SerializerMixin):
     __tablename__ = "comments"
 
     id = db.Column(db.Integer, primary_key=True)

@@ -17,11 +17,19 @@ def get_user(id):
 
 @user_bp.route('', methods=['POST'])
 def create_user():
-    data = request.get_json()
-    new_user = User(username=data['username'], email=data['email'], password=data['password'])
-    db.session.add(new_user)
-    db.session.commit()
-    return jsonify({"message": "User created"}), 201
+     data = request.get_json()
+     email = data.get("email")
+     password = data.get("password")
+ 
+     if User.query.filter_by(email=email).first():
+         return {"msg": "Email already registered"}, 409
+
+     new_user = User(email=email)
+     new_user.set_password(password)
+
+     db.session.add(new_user)
+     db.session.commit()
+     return {"msg": "User registered successfully"}, 201
 
 @user_bp.route('/<int:id>', methods=['PUT'])
 def update_user(id):

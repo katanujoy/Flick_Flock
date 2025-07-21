@@ -1,4 +1,4 @@
-from ..config import db
+from app import db
 from sqlalchemy import func
 from sqlalchemy_serializer import SerializerMixin
 
@@ -15,7 +15,7 @@ class Watchlist(db.Model, SerializerMixin):
 
     # Relationships
     user = db.relationship("User", back_populates = "watchlists")
-    movie_series = db.relationship("Movie_series", back_populates = "watchlists")
+    movie_series = db.relationship("MovieSeries", back_populates = "watchlists")
 
     def __repr__(self):
         return f"<Watchlist id={self.id} user_id={self.user_id} movie_series_id={self.movie_series_id} status={self.status}>"
