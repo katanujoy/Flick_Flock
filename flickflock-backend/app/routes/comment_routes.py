@@ -1,79 +1,85 @@
 from flask import request
 from flask_restful import Resource
-from models.comments import Comment  
+from ..models.comments import Comment  
 from app import db
-from flask_jwt_extended import jwt_required
-
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from ..schemas.comment_schema import CommentSchema
+from marshmallow import ValidationError
 
 class CommentResource(Resource):
 
     @jwt_required
     def get(self):
         comments = Comment.query.all()
-        return [comment.to_dict() for comment in comments], 200
+        schema = CommentSchema(many=True)
+        return schema.dump(comments), 200
 
     @jwt_required
     def post(self):
         data = request.get_json()
+        user_id = get_jwt_identity()
 
-        user_id = data.get("user_id") # implement and replace with JWT auth 
-        post_id = data.get("post_id")
-        content = data.get("content")
+        schema = CommentSchema()
 
-        if not user_id or not post_id or not content:
-            return {"message": "Missing required fields"}, 400
+        # Validate input
+        try:
+            validated_data = schema.load(data)
+        except ValidationError as err:
+            return {"errors": err.messages}, 400
 
         comment = Comment(
             user_id=user_id,
-            post_id=post_id,
-            content=content
+            post_id=validated_data["post_id"],
+            content=validated_data["content"]
         )
 
         db.session.add(comment)
         db.session.commit()
 
-        return comment.to_dict(), 201
+        return schema.dump(comment), 201
 
     @jwt_required
     def patch(self):
         data = request.get_json()
-        comment_id = data.get("id")
-        content = data.get("content")
+        schema = CommentSchema(partial=True)
 
+        # Validate input
+        try:
+            validated_data = schema.load(data)
+        except ValidationError as err:
+            return {"errors": err.messages}, 400
+
+        comment_id = validated_data.get("id")
         if not comment_id:
             return {"message": "Missing comment ID"}, 400
 
         comment = Comment.query.get(comment_id)
-
         if not comment:
             return {"message": "Comment not found"}, 404
 
-        if content:
-            comment.content = content
+        # Apply updates
+        if "content" in validated_data:
+            comment.content = validated_data["content"]
 
         db.session.commit()
-        return comment.to_dict(), 200
+        return schema.dump(comment), 200
 
     @jwt_required   
     def delete(self):
         data = request.get_json()
-
         comment_id = data.get("id")
-        if not comment_id:
-            return {
-                "error": "Comment ID is required"
-            }, 400
 
+        if not comment_id:
+            return {"error": "Comment ID is required"}, 400
 
         comment = Comment.query.get(comment_id)
         if not comment:
-            return {
-                "error": "Comment not found"
-            }, 404
+            return {"error": "Comment not found"}, 404
 
-        comment_dict = comment.to_dict()
+        schema = CommentSchema()
+        comment_data = schema.dump(comment)
 
         db.session.delete(comment)
         db.session.commit()
 
-        return comment_dict, 200
+        return comment_data, 200 

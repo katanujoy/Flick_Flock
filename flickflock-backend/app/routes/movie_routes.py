@@ -1,7 +1,7 @@
 # app/routes/movies_series.py
 from flask import Blueprint, request, jsonify
 from app import db
-from app.models.movie_series import MovieSeries
+from ..models.movie_series import MovieSeries
 from flask_jwt_extended import jwt_required
 
 

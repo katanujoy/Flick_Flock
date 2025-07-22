@@ -1,39 +1,42 @@
 from flask import request
 from flask_restful import Resource
-from models.recommendations import Recommendation
+from ..models.recommendations import Recommendation
 from app import db
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from ..schemas.recommendation_schema import RecommendationSchema
+from marshmallow import ValidationError
 
+recommendation_schema = RecommendationSchema()
+recommendation_schema_many = RecommendationSchema(many=True)
 
 class RecommendationResource(Resource):
 
-    @jwt_required
+    @jwt_required()
     def get(self):
         recommendations = Recommendation.query.all()
-        return [recommendation.to_dict() for recommendation in recommendations], 200
+        return recommendation_schema_many.dump(recommendations), 200
 
-    @jwt_required
+    @jwt_required()
     def post(self):
         data = request.get_json()
+        user_id = get_jwt_identity()
 
-        user_id = data.get("user_id") #replace with  JWT auth
-        movie_series_id = data.get("movie_series_id")
-        recommended_reason = data.get("recommended_reason")
+        try:
+            validated_data = recommendation_schema.load(data)
+        except ValidationError as err:
+            return {"errors": err.messages}, 400
 
-        if not user_id or not movie_series_id:
-            return {"message": "user_id and movie_series_id are required"}, 400
-
-        recommendation = Recommendation(
+        new_recommendation = Recommendation(
             user_id=user_id,
-            movie_series_id=movie_series_id,
-            recommended_reason=recommended_reason
+            movie_series_id=validated_data["movie_series_id"],
+            recommended_reason=validated_data.get("recommended_reason")
         )
 
-        db.session.add(recommendation)
+        db.session.add(new_recommendation)
         db.session.commit()
-        return recommendation.to_dict(), 201
+        return recommendation_schema.dump(new_recommendation), 201
 
-    @jwt_required
+    @jwt_required()
     def patch(self):
         data = request.get_json()
         recommendation_id = data.get("id")
@@ -45,11 +48,17 @@ class RecommendationResource(Resource):
         if not recommendation:
             return {"message": "Recommendation not found"}, 404
 
-        recommendation.recommended_reason = data.get("recommended_reason", recommendation.recommended_reason)
-        db.session.commit()
-        return recommendation.to_dict(), 200
+        current_user = get_jwt_identity()
+        if recommendation.user_id != current_user:
+            return {"error": "Unauthorized"}, 403
 
-    @jwt_required   
+        if "recommended_reason" in data:
+            recommendation.recommended_reason = data["recommended_reason"]
+
+        db.session.commit()
+        return recommendation_schema.dump(recommendation), 200
+
+    @jwt_required()
     def delete(self):
         data = request.get_json()
         recommendation_id = data.get("id")
@@ -57,11 +66,18 @@ class RecommendationResource(Resource):
         if not recommendation_id:
             return {"message": "Recommendation ID is required"}, 400
 
-        recommendation = Recommendation.query.get_or_404(recommendation_id, description="Recommendation not found")
-        recommendation_dict = recommendation.to_dict()
+        recommendation = Recommendation.query.get_or_404(
+            recommendation_id,
+            description="Recommendation not found"
+        )
+
+        current_user = get_jwt_identity()
+        if recommendation.user_id != current_user:
+            return {"error": "Unauthorized"}, 403
+
+        response = recommendation_schema.dump(recommendation)
 
         db.session.delete(recommendation)
         db.session.commit()
 
-        return recommendation_dict, 200
-
+        return response, 200
