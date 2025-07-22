@@ -8,5 +8,16 @@ class Follow(db.Model):
     followed_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
 
-    follower = db.relationship('User', foreign_keys=[follower_id], backref='following_associations')
-    followed = db.relationship('User', foreign_keys=[followed_id], backref='follower_associations')
+    # Relationship to the follower (user who follows someone)
+    follower = db.relationship(
+        'User',
+        foreign_keys=[follower_id],
+        backref=db.backref('following', lazy='dynamic')
+    )
+
+    # Relationship to the followed (user being followed)
+    followed = db.relationship(
+        'User',
+        foreign_keys=[followed_id],
+        backref=db.backref('followers', lazy='dynamic')
+    )
