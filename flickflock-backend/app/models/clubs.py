@@ -1,8 +1,8 @@
 from app import db
 from sqlalchemy import func
-from sqlalchemy_serializer import Serializermixin
+from sqlalchemy_serializer import SerializerMixin
 
-class Club(db.Model, Serializermixin):
+class Club(db.Model, SerializerMixin):
     __tablename__ = "clubs"
 
     id = db.Column(db.Integer, primary_key=True)
