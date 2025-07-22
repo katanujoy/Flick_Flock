@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from app.routes.movies_series import movies_bp
+app.register_blueprint(movies_bp)
 
 db = SQLAlchemy()
 migrate = Migrate()
