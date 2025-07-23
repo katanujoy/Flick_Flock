@@ -58,3 +58,27 @@ class WatchlistResource(Resource):
         db.session.commit()
 
         return response, 200
+
+
+# SEARCH API
+class WatchlistResourceSearch(Resource):
+    def get(self):
+        search = request.args.get('search', '', type=str)
+        page = request.args.get('page', 1, type=int)
+        limit = request.args.get('limit', 10, type=int)
+        offset = (page - 1) * limit
+
+        query = Watchlist.query
+        if search:
+            query = query.filter(Watchlist.title.ilike(f"%{search}%"))
+
+        total = query.count()
+        movies = query.offset(offset).limit(limit).all()
+
+        return {
+            "page": page,
+            "limit": limit,
+            "total": total,
+            "search": search,
+            "results": [movie.to_dict() for movie in movies]
+        }, 200
