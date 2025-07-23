@@ -1,4 +1,4 @@
-from app import db
+from app import create_app,db
 from app.models.user import User
 from app.models.clubs import Club
 from app.models.membership import Membership
@@ -76,4 +76,6 @@ def seed():
     print("Database seeded!")
 
 if __name__ == "__main__":
-    seed()
+    app = create_app()
+    with app.app_context():
+        seed()
