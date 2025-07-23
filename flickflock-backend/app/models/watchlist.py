@@ -12,10 +12,9 @@ class Watchlist(db.Model, SerializerMixin):
     notes = db.Column(db.Text)
     added_at = db.Column(db.DateTime, default=func.now())
 
-
     # Relationships
-    user = db.relationship("User", back_populates = "watchlists")
-    movie_series = db.relationship("MovieSeries", back_populates = "watchlists")
+    user = db.relationship("User", back_populates="watchlists")
+    movie_series = db.relationship("MovieSeries", back_populates="watchlists")
 
     def __repr__(self):
         return f"<Watchlist id={self.id} user_id={self.user_id} movie_series_id={self.movie_series_id} status={self.status}>"

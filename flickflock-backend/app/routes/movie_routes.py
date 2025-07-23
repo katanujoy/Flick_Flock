@@ -49,7 +49,7 @@ def delete_movie(id):
     return jsonify({"message": "Movie/Series deleted"})
 
 
-class MoviesResource(Resource):
+class MoviesResourceSearch(Resource):
     def get(self):
         # Get query params
         search = request.args.get('search', '', type=str)
