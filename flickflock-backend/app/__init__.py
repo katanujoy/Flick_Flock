@@ -1,4 +1,7 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import MetaData
+from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
@@ -57,5 +60,6 @@ def create_app():
     app.register_blueprint(follow_bp)
     app.register_blueprint(movies_bp)
     app.register_blueprint(report_bp)
+    app.register_blueprint(movies_bp)  
 
     return app
