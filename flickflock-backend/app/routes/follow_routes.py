@@ -1,9 +1,9 @@
 # CRUD for Followers
 # app/routes/follow_routes.py
 from flask import Blueprint, request, jsonify
-from app.models.follow import Follow
+from ..models.follow import Follow
 from app import db
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
 follow_bp = Blueprint('follow_bp', __name__)

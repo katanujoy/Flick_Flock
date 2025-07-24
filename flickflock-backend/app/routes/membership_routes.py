@@ -1,7 +1,7 @@
 # CRUD for Memberships
 # app/routes/membership_routes.py
 from flask import Blueprint, request, jsonify
-from app.models.membership import Membership
+from ..models.membership import Membership
 from app import db
 from flask_jwt_extended import jwt_required
 

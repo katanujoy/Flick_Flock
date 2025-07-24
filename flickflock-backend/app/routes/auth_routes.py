@@ -1,27 +1,12 @@
 from flask import request
 from flask_restful import Resource
-from models.user import User
+from ..models.user import User
 from app import db
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 
 
 #Register
-class Register(Resource):
-    def post(self):
-        data = request.get_json()
-        email = data.get("email")
-        password = data.get("password")
-
-        if User.query.filter_by(email=email).first():
-            return {"msg": "Email already registered"}, 409
-
-        new_user = User(email=email)
-        new_user.set_password(password)
-
-        db.session.add(new_user)
-        db.session.commit()
-        return {"msg": "User registered successfully"}, 201
-
+# use create_user() in user routes
 
 #Login
 class Login(Resource):

@@ -1,7 +1,7 @@
 # app/routes/users.py
 from flask import Blueprint, request, jsonify
 from app import db
-from app.models.user import User
+from ..models.user import User
 
 user_bp = Blueprint('user_bp', __name__, url_prefix='/api/users')
 

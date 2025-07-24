@@ -1,7 +1,7 @@
 # CRUD for Reports
 # app/routes/report_routes.py
 from flask import Blueprint, request, jsonify
-from app.models.report import Report
+from ..models.report import Report
 from app import db
 from flask_jwt_extended import jwt_required
 
