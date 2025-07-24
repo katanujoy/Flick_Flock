@@ -15,21 +15,31 @@ def get_user(id):
     user = User.query.get_or_404(id)
     return jsonify({"username": user.username, "email": user.email})
 
-@user_bp.route('', methods=['POST'])
+@user_bp.route('/register', methods=['POST'])
 def create_user():
-     data = request.get_json()
-     email = data.get("email")
-     password = data.get("password")
- 
-     if User.query.filter_by(email=email).first():
-         return {"msg": "Email already registered"}, 409
+    data = request.get_json()
+    
+    username = data.get("username")
+    email = data.get("email")
+    password = data.get("password")
+    bio = data.get("bio", "")
+    favorite_genres = data.get("favorite_genres", [])
 
-     new_user = User(email=email)
-     new_user.set_password(password)
+    if User.query.filter((User.email == email) | (User.username == username)).first():
+        return {"msg": "Email or username already registered"}, 409
 
-     db.session.add(new_user)
-     db.session.commit()
-     return {"msg": "User registered successfully"}, 201
+    new_user = User(
+        username=username,
+        email=email,
+        bio=bio,
+        favorite_genres=favorite_genres
+    )
+    new_user.set_password(password) 
+    db.session.add(new_user)
+    db.session.commit()
+
+    return {"msg": "User registered successfully"}, 201
+
 
 @user_bp.route('/<int:id>', methods=['PUT'])
 def update_user(id):
