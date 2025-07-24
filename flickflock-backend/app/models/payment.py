@@ -1,0 +1,1 @@
+# intiate fields from mpesa daraja -- phone number and amount
