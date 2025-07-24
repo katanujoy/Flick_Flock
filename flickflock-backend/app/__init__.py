@@ -31,8 +31,8 @@ def create_app():
     CORS(app)
     api = Api(app)
 
-    from flask_jwt_extended import jwt_manager
-    jwt = jwt_manager
+    from flask_jwt_extended import JWTManager
+    jwt = JWTManager(app)
 
     # Import routes/resources here to avoid circular imports
     from .routes.club_routes import ClubResource

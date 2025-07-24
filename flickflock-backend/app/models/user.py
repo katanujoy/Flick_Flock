@@ -1,5 +1,5 @@
 from app import db
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 
 # Association table for user likes (many-to-many with MovieSeries)
 user_likes = db.Table(
@@ -30,6 +30,9 @@ class User(db.Model):
     followers = db.relationship('Follow', foreign_keys='Follow.followed_id', back_populates='followed', cascade="all, delete-orphan")
     following = db.relationship('Follow', foreign_keys='Follow.follower_id', back_populates='follower', cascade="all, delete-orphan")
     reports = db.relationship('Report', back_populates='user', cascade="all, delete-orphan")
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)

@@ -1,3 +1,4 @@
+# intiate fields from mpesa daraja -- phone number and amount
 from app import db
 from sqlalchemy import func
 
