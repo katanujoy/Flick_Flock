@@ -21,3 +21,5 @@ class Follow(db.Model):
         foreign_keys=[followed_id],
         backref=db.backref('followers', lazy='dynamic')
     )
+    follower = db.relationship('User', foreign_keys=[follower_id], back_populates='following')
+    followed = db.relationship('User', foreign_keys=[followed_id], back_populates='followers')

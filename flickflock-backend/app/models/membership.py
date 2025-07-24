@@ -13,3 +13,4 @@ class Membership(db.Model):
     # Relationships
     user = db.relationship("User", back_populates="memberships")
     club = db.relationship("Club", back_populates="memberships")
+    
