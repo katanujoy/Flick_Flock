@@ -38,6 +38,7 @@ def create_app():
     from .routes.club_routes import ClubResource
     from .routes.comment_routes import CommentResource
     from .routes.post_routes import PostResource
+    from .routes.post_routes import PostDetailResource
     from .routes.recommendations_routes import RecommendationResource
     from .routes.watchlists_routes import WatchlistResource
     from .routes.auth_routes import Login
@@ -51,6 +52,7 @@ def create_app():
     api.add_resource(ClubResource, '/clubs')
     api.add_resource(CommentResource, '/comments')
     api.add_resource(PostResource, '/posts')
+    api.add_resource(PostDetailResource, '/posts/<int:post_id>') 
     api.add_resource(RecommendationResource, '/recommendations')
     api.add_resource(WatchlistResource, '/watchlist')
     api.add_resource(Login, "/login")
@@ -60,6 +62,4 @@ def create_app():
     app.register_blueprint(follow_bp)
     app.register_blueprint(movies_bp)
     app.register_blueprint(report_bp)
-    app.register_blueprint(movies_bp)  
-
     return app
