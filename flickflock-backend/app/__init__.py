@@ -40,6 +40,7 @@ def create_app():
     from .routes.post_routes import PostResource
     from .routes.post_routes import PostDetailResource
     from .routes.recommendations_routes import RecommendationResource
+    from .routes.recommendations_routes import RecommendationDetailResource
     from .routes.watchlists_routes import WatchlistResource
     from .routes.auth_routes import Login
     from .routes.membership_routes import membership_bp
@@ -54,6 +55,7 @@ def create_app():
     api.add_resource(PostResource, '/posts')
     api.add_resource(PostDetailResource, '/posts/<int:post_id>') 
     api.add_resource(RecommendationResource, '/recommendations')
+    api.add_resource(RecommendationDetailResource, '/recommendations/<int:recommendation_id>')
     api.add_resource(WatchlistResource, '/watchlist')
     api.add_resource(Login, "/login")
     api.add_resource(MpesaDarajaResource, '/mpesa/stkpush')
