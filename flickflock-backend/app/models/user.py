@@ -1,5 +1,5 @@
 from app import db
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # Association table for user likes (many-to-many with MovieSeries)
 user_likes = db.Table(
@@ -31,6 +31,7 @@ class User(db.Model):
     following = db.relationship('Follow', foreign_keys='Follow.follower_id', back_populates='follower', cascade="all, delete-orphan")
     reports = db.relationship('Report', back_populates='user', cascade="all, delete-orphan")
 
+    # Password utilities
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
@@ -39,3 +40,14 @@ class User(db.Model):
 
     def __repr__(self):
         return f"<User {self.username}>"
+
+    # Serialize for JSON output
+    def serialize(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+            'bio': self.bio,
+            'favorite_genres': self.favorite_genres,
+            'created_at': self.created_at.isoformat() if self.created_at else None
+        }

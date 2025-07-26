@@ -8,20 +8,18 @@ from marshmallow import ValidationError
 
 class CommentResource(Resource):
 
-    @jwt_required
+    @jwt_required()
     def get(self):
         comments = Comment.query.all()
         schema = CommentSchema(many=True)
         return schema.dump(comments), 200
 
-    @jwt_required
+    @jwt_required()
     def post(self):
         data = request.get_json()
         user_id = get_jwt_identity()
 
         schema = CommentSchema()
-
-        # Validate input
         try:
             validated_data = schema.load(data)
         except ValidationError as err:
@@ -38,12 +36,12 @@ class CommentResource(Resource):
 
         return schema.dump(comment), 201
 
-    @jwt_required
+    @jwt_required()
     def patch(self):
         data = request.get_json()
+        user_id = get_jwt_identity()
         schema = CommentSchema(partial=True)
 
-        # Validate input
         try:
             validated_data = schema.load(data)
         except ValidationError as err:
@@ -57,17 +55,21 @@ class CommentResource(Resource):
         if not comment:
             return {"message": "Comment not found"}, 404
 
-        # Apply updates
+        # Authorization check
+        if comment.user_id != user_id:
+            return {"error": "Unauthorized"}, 403
+
         if "content" in validated_data:
             comment.content = validated_data["content"]
 
         db.session.commit()
         return schema.dump(comment), 200
 
-    @jwt_required   
+    @jwt_required()
     def delete(self):
         data = request.get_json()
         comment_id = data.get("id")
+        user_id = get_jwt_identity()
 
         if not comment_id:
             return {"error": "Comment ID is required"}, 400
@@ -76,10 +78,14 @@ class CommentResource(Resource):
         if not comment:
             return {"error": "Comment not found"}, 404
 
+        # Authorization check
+        if comment.user_id != user_id:
+            return {"error": "Unauthorized"}, 403
+
         schema = CommentSchema()
         comment_data = schema.dump(comment)
 
         db.session.delete(comment)
         db.session.commit()
 
-        return comment_data, 200 
+        return comment_data, 200

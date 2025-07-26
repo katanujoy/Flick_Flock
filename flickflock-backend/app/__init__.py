@@ -24,7 +24,7 @@ def create_app():
     app.config["JWT_TOKEN_LOCATION"] = ["headers"]
     app.config["JWT_HEADER_NAME"] = "Authorization"
     app.config["JWT_HEADER_TYPE"] = "Bearer"
-    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 3600
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 18000
 
     db.init_app(app)
     migrate.init_app(app, db)
