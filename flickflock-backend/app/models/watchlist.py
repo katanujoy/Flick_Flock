@@ -2,15 +2,16 @@ from app import db
 from sqlalchemy import func
 from sqlalchemy_serializer import SerializerMixin
 
-class Watchlist(db.Model, SerializerMixin):
-    __tablename__ = "watchlists"
+class Watchlist(db.Model,SerializerMixin):
+    __tablename__ = "watchlist"
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    movie_series_id = db.Column(db.Integer, db.ForeignKey('movies_series.id'), nullable=False)    
-    status = db.Column(db.String(20), nullable=False)
-    notes = db.Column(db.Text)
-    added_at = db.Column(db.DateTime, default=func.now())
+    movie_series_id = db.Column(db.Integer, db.ForeignKey('movies_series.id'), nullable=False)
+
+    user = db.relationship('User', back_populates='watchlist')
+    movie_series = db.relationship('MovieSeries', back_populates='watchlists')
+
 
     # Relationships
     user = db.relationship("User", back_populates="watchlists")
