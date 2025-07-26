@@ -5,6 +5,9 @@ from sqlalchemy_serializer import SerializerMixin
 class Club(db.Model, SerializerMixin):
     __tablename__ = "clubs"
 
+    # Exclude non-serializable relationships from automatic serialization
+    serialize_rules = ("-user", "-posts", "-memberships")
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.String)
@@ -18,4 +21,7 @@ class Club(db.Model, SerializerMixin):
     memberships = db.relationship("Membership", back_populates="club", cascade="all, delete-orphan")
 
     def __repr__(self):
-        return f"<Club id={self.id}, name={self.name}, description={self.description}, genre={self.genre}, created_by={self.created_by}, created_at={self.created_at}>"
+        return (
+            f"<Club id={self.id}, name={self.name}, description={self.description}, "
+            f"genre={self.genre}, created_by={self.created_by}, created_at={self.created_at}>"
+        )

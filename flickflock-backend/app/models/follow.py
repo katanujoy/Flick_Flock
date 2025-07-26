@@ -8,18 +8,18 @@ class Follow(db.Model):
     followed_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
 
-    # Relationship to the follower (user who follows someone)
-    follower = db.relationship(
-        'User',
-        foreign_keys=[follower_id],
-        backref=db.backref('following', lazy='dynamic')
-    )
-
-    # Relationship to the followed (user being followed)
-    followed = db.relationship(
-        'User',
-        foreign_keys=[followed_id],
-        backref=db.backref('followers', lazy='dynamic')
-    )
     follower = db.relationship('User', foreign_keys=[follower_id], back_populates='following')
     followed = db.relationship('User', foreign_keys=[followed_id], back_populates='followers')
+
+    def __repr__(self):
+        return f"<Follow {self.follower_id} -> {self.followed_id}>"
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'follower_id': self.follower_id,
+            'follower_username': self.follower.username if self.follower else None,
+            'followed_id': self.followed_id,
+            'followed_username': self.followed.username if self.followed else None,
+            'created_at': self.created_at.isoformat() if self.created_at else None
+        }
