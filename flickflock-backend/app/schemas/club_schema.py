@@ -6,5 +6,5 @@ class ClubSchema(Schema):
     name = fields.Str(required=True)
     description = fields.Str(required=True)
     genre = fields.Str(allow_none=True)
-    created_by = fields.Int(required=True)
+    created_by = fields.Int(dump_only=True)
     created_at = fields.DateTime(dump_only=True)

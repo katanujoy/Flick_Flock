@@ -36,14 +36,9 @@ class RecommendationResource(Resource):
         db.session.commit()
         return recommendation_schema.dump(new_recommendation), 201
 
+class RecommendationDetailResource(Resource):
     @jwt_required()
-    def patch(self):
-        data = request.get_json()
-        recommendation_id = data.get("id")
-
-        if not recommendation_id:
-            return {"message": "Missing recommendation ID"}, 400
-
+    def patch(self, recommendation_id):
         recommendation = Recommendation.query.get(recommendation_id)
         if not recommendation:
             return {"message": "Recommendation not found"}, 404
@@ -52,6 +47,7 @@ class RecommendationResource(Resource):
         if recommendation.user_id != current_user:
             return {"error": "Unauthorized"}, 403
 
+        data = request.get_json()
         if "recommended_reason" in data:
             recommendation.recommended_reason = data["recommended_reason"]
 
@@ -59,17 +55,10 @@ class RecommendationResource(Resource):
         return recommendation_schema.dump(recommendation), 200
 
     @jwt_required()
-    def delete(self):
-        data = request.get_json()
-        recommendation_id = data.get("id")
-
-        if not recommendation_id:
-            return {"message": "Recommendation ID is required"}, 400
-
-        recommendation = Recommendation.query.get_or_404(
-            recommendation_id,
-            description="Recommendation not found"
-        )
+    def delete(self, recommendation_id):
+        recommendation = Recommendation.query.get(recommendation_id)
+        if not recommendation:
+            return {"message": "Recommendation not found"}, 404
 
         current_user = get_jwt_identity()
         if recommendation.user_id != current_user:
@@ -81,3 +70,4 @@ class RecommendationResource(Resource):
         db.session.commit()
 
         return response, 200
+
