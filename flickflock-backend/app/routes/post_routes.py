@@ -40,22 +40,19 @@ class PostResource(Resource):
 
         return post_schema.dump(new_post), 201
 
+
+class PostDetailResource(Resource):
     @jwt_required()
-    def patch(self):
-        data = request.get_json()
-        post_id = data.get("id")
-
-        if not post_id:
-            return {"message": "Missing post ID"}, 400
-
+    def patch(self,post_id):
         post = Post.query.get(post_id)
         if not post:
             return {"message": "Post not found"}, 404
 
-        # Optional: only allow the owner to edit
         current_user = get_jwt_identity()
         if post.user_id != current_user:
             return {"error": "Unauthorized"}, 403
+
+        data = request.get_json()
 
         # Allow partial update
         if "content" in data:
@@ -67,22 +64,16 @@ class PostResource(Resource):
         return post_schema.dump(post), 200
 
     @jwt_required()
-    def delete(self):
-        data = request.get_json()
-        post_id = data.get("id")
+    def delete(self, post_id):
+        post = Post.query.get(post_id)
+        if not post:
+            return {"error": "Post not found"}, 404
 
-        if not post_id:
-            return {"error": "Post ID not provided"}, 400
-
-        post = Post.query.get_or_404(post_id, description="Post not found")
-
-        # Optional: only allow the owner to delete
         current_user = get_jwt_identity()
         if post.user_id != current_user:
             return {"error": "Unauthorized"}, 403
 
         post_dict = post_schema.dump(post)
-
         db.session.delete(post)
         db.session.commit()
 
