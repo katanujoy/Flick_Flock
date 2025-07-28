@@ -1,79 +1,44 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import {
-  ThemeProvider,
-  createTheme,
-  CssBaseline,
-  Box,
-  Container,
-} from "@mui/material";
-import { MovieProvider } from "./contexts/MovieContext";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import Home from "./pages/Home";
-import MovieDetails from "./pages/MovieDetails";
-import Favorites from "./pages/Favorites";
-import Login from "./pages/Login";
-import ProtectedRoute from "./components/ProtectedRoute";
-import { useMovieContext } from "./contexts/MovieContext";
-import AlertSnackbar from "./components/Snackbar";
 
-const AppContent = () => {
-  const { darkMode } = useMovieContext();
+import MoviesListPage from "./pages/MoviesListPage";
+import ExploreClubsPage from "./pages/ExploreClubsPage";
+import ClubForm from "./components/ClubForm";
+import ClubDetailsPage from "./pages/ClubDetailsPage";
+import MovieDetailsPage from "./pages/MovieDetailsPage";
+import MovieForm from "./pages/MovieForm";
+import WatchlistPage from "./pages/WatchlistPage";
 
-  const theme = createTheme({
-    palette: {
-      mode: darkMode ? "dark" : "light",
-      primary: {
-        main: "#1976d2",
-      },
-      secondary: {
-        main: "#dc004e",
-      },
-    },
-  });
-
+// Fake search page until we build it
+function SearchPage() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "100vh",
-          bgcolor: "background.default",
-        }}
-      >
-        <Router>
-          <Navbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4, flexGrow: 1 }}>
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/" element={<Home />} />
-              <Route path="/movie/:id" element={<MovieDetails />} />
-              <Route
-                path="/favorites"
-                element={
-                  <ProtectedRoute>
-                    <Favorites />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </Container>
-          <AlertSnackbar />
-          <Footer />
-        </Router>
-      </Box>
-    </ThemeProvider>
+    <div style={{ padding: "20px", color: "white" }}>
+      <h2>Search results coming soon...</h2>
+    </div>
   );
-};
+}
 
-const App = () => {
+function App() {
   return (
-    <MovieProvider>
-      <AppContent />
-    </MovieProvider>
+    <Router>
+      <Navbar />
+
+      <Routes>
+        <Route path="/movies" element={<MoviesListPage />} />
+        <Route path="/movie/:id" element={<MovieDetailsPage />} />
+        <Route path="/movies/new" element={<MovieForm />} />
+
+        <Route path="/clubs" element={<ExploreClubsPage />} />
+        <Route path="/clubs/new" element={<ClubForm />} />
+        <Route path="/club/:id" element={<ClubDetailsPage />} />
+
+        <Route path="/watchlist" element={<WatchlistPage />} />
+        <Route path="/search" element={<SearchPage />} />
+
+        <Route path="/" element={<MoviesListPage />} />
+      </Routes>
+    </Router>
   );
-};
+}
 
 export default App;
