@@ -7,4 +7,8 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
   </StrictMode>,
+<<<<<<< .merge_file_p6Ozuy
 )
+=======
+)
+>>>>>>> .merge_file_tFfcaz
