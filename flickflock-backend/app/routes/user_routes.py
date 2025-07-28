@@ -73,3 +73,25 @@ def create_user():
     db.session.commit()
 
     return {"msg": "User registered successfully"}, 201
+
+@user_bp.route('/login', methods=['POST'])
+def login_user():
+    data = request.get_json()
+    username = data.get("username")
+    password = data.get("password")
+
+    user = User.query.filter_by(username=username).first()
+
+    if user and user.check_password(password):
+        return jsonify({
+            "success": True,
+            "user": {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "bio": user.bio,
+                "favorite_genres": user.favorite_genres
+            }
+        })
+    else:
+        return jsonify({"success": False, "message": "Invalid username or password"}), 401
