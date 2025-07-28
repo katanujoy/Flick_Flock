@@ -31,6 +31,10 @@ function Navbar() {
           onChange={(e) => setQuery(e.target.value)}
         />
       </form>
+
+      <div className="navbar-auth">
+        <Link to="/login">Login</Link>
+      </div>
     </nav>
   );
 }
