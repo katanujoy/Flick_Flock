@@ -21,6 +21,7 @@ function Navbar() {
         <Link to="/movies">Movies</Link>
         <Link to="/clubs">Clubs</Link>
         <Link to="/watchlist">Watchlist</Link>
+        <Link to="/profile">Profile</Link>
       </div>
 
       <form className="navbar-search" onSubmit={handleSearch}>

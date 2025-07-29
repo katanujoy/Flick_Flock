@@ -10,6 +10,8 @@ import MovieForm from "./pages/MovieForm";
 import WatchlistPage from "./pages/WatchlistPage";
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
+import ProfilePage from './pages/ProfilePage';
+
 
 // Fake search page until we build it
 function SearchPage() {
@@ -39,6 +41,8 @@ function App() {
 
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+
+        <Route path="/profile" element={<ProfilePage />} />
 
         <Route path="/" element={<MoviesListPage />} />
       </Routes>
