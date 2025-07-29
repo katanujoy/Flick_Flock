@@ -1,6 +1,6 @@
  import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import '../styles/LoginPage.css'; // Ensure this file exists and is correctly named
+import '../styles/LoginPage.css'; 
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -22,7 +22,7 @@ function LoginPage() {
       if (res.ok) {
         localStorage.setItem('access_token', data.access_token);
         alert('Login successful!');
-        navigate('/dashboard'); // Change this to your actual landing page
+        navigate('/dashboard'); 
       } else {
         alert(data.msg || 'Login failed');
       }
