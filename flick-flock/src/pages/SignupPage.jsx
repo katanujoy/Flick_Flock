@@ -1,6 +1,6 @@
  import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import '../styles/SignPage.css'; // Make sure this file exists
+import '../styles/SignPage.css'; 
 
 function SignupPage() {
   const [form, setForm] = useState({
