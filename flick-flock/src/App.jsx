@@ -1,10 +1,4 @@
-<<<<<<< .merge_file_OyBJqJ
- import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-=======
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 
 import MoviesListPage from "./pages/MoviesListPage";
@@ -25,16 +19,10 @@ function SearchPage() {
     </div>
   );
 }
->>>>>>> .merge_file_4e4onQ
 
 function App() {
   return (
     <Router>
-<<<<<<< .merge_file_OyBJqJ
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-=======
       <Navbar />
 
       <Routes>
@@ -53,7 +41,6 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
 
         <Route path="/" element={<MoviesListPage />} />
->>>>>>> .merge_file_4e4onQ
       </Routes>
     </Router>
   );

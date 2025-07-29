@@ -1,21 +1,9 @@
-<<<<<<< .merge_file_lpNoBF
  * {
-=======
-* {
->>>>>>> .merge_file_Fls4HH
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-<<<<<<< .merge_file_lpNoBF
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #000;
-  color: #fff;
-  background-image: url('https://m.media-amazon.com/images/M/MV5BNmRmN2I5M2EtNDA1Ny00N2ZmLWE3YWYtMjQ1NTFjY2Q4NWM5XkEyXkFqcGc@._V1_.jpg');
- 
-=======
 html,
 body,
 #root {
@@ -24,5 +12,4 @@ body,
   background-color: #000; 
   color: white;
   font-family: Arial, sans-serif;
->>>>>>> .merge_file_Fls4HH
 }
