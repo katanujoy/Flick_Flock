@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { mockMovies } from "../mock/movies";
 import { mockPosts } from "../mock/posts";
 import ReviewCard from "../components/ReviewCard";
+import RecommendModal from "../components/RecommendModal";
 import "../styles/Movies.css";
 import { useState } from "react";
 
@@ -12,6 +13,13 @@ function MovieDetailsPage() {
 
   const [watchlisted, setWatchlisted] = useState(false);
   const [recommended, setRecommended] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleRecommendationSubmit = (reason) => {
+    console.log(`Recommendation reason: ${reason}`);
+    setRecommended(true);
+    // You could also send this to the backend later
+  };
 
   if (!movie) return <p className="error">Movie not found.</p>;
 
@@ -32,11 +40,18 @@ function MovieDetailsPage() {
 
         <button
           className="recommend-btn"
-          onClick={() => setRecommended(!recommended)}
+          onClick={() => setShowModal(true)}
         >
-          {recommended ? "Unrecommend" : "Recommend"}
+          {recommended ? "Recommended!" : "Recommend"}
         </button>
       </div>
+
+      {showModal && (
+        <RecommendModal
+          onClose={() => setShowModal(false)}
+          onSubmit={handleRecommendationSubmit}
+        />
+      )}
 
       <h3>User Reviews</h3>
       {reviews.length > 0 ? (
