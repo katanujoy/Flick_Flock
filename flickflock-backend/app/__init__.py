@@ -1,12 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import MetaData
 from flask_migrate import Migrate
+from sqlalchemy import MetaData
 from flask_cors import CORS
 from flask_restful import Api
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from sqlalchemy import MetaData
 
 # Setup metadata naming convention
 metadata = MetaData(naming_convention={
@@ -28,19 +25,20 @@ def create_app():
 
     db.init_app(app)
     migrate.init_app(app, db)
-    CORS(app)
+
+    # Allow frontend on localhost:5175 to access API with credentials
+    CORS(app, origins=["http://localhost:5175"], supports_credentials=True)
+
     api = Api(app)
 
     from flask_jwt_extended import JWTManager
     jwt = JWTManager(app)
 
-    # Import routes/resources here to avoid circular imports
+    # Import routes/resources
     from .routes.club_routes import ClubResource
     from .routes.comment_routes import CommentResource
-    from .routes.post_routes import PostResource
-    from .routes.post_routes import PostDetailResource
-    from .routes.recommendations_routes import RecommendationResource
-    from .routes.recommendations_routes import RecommendationDetailResource
+    from .routes.post_routes import PostResource, PostDetailResource
+    from .routes.recommendations_routes import RecommendationResource, RecommendationDetailResource
     from .routes.watchlists_routes import WatchlistResource
     from .routes.auth_routes import Login
     from .routes.membership_routes import membership_bp
@@ -50,18 +48,21 @@ def create_app():
     from .routes.report_routes import report_bp
     from .routes.mpesadaraja_routes import MpesaDarajaResource
 
-    api.add_resource(ClubResource, '/clubs')
-    api.add_resource(CommentResource, '/comments')
-    api.add_resource(PostResource, '/posts')
-    api.add_resource(PostDetailResource, '/posts/<int:post_id>') 
-    api.add_resource(RecommendationResource, '/recommendations')
-    api.add_resource(RecommendationDetailResource, '/recommendations/<int:recommendation_id>')
-    api.add_resource(WatchlistResource, '/watchlist')
-    api.add_resource(Login, "/login")
-    api.add_resource(MpesaDarajaResource, '/mpesa/stkpush')
+    # Use /api prefix for RESTful consistency
+    api.add_resource(ClubResource, '/api/clubs')
+    api.add_resource(CommentResource, '/api/comments')
+    api.add_resource(PostResource, '/api/posts')
+    api.add_resource(PostDetailResource, '/api/posts/<int:post_id>')
+    api.add_resource(RecommendationResource, '/api/recommendations')
+    api.add_resource(RecommendationDetailResource, '/api/recommendations/<int:recommendation_id>')
+    api.add_resource(WatchlistResource, '/api/watchlist')
+    api.add_resource(Login, "/api/login")
+    api.add_resource(MpesaDarajaResource, '/api/mpesa/stkpush')
+
     app.register_blueprint(membership_bp)    
     app.register_blueprint(user_bp)
     app.register_blueprint(follow_bp)
     app.register_blueprint(movies_bp)
     app.register_blueprint(report_bp)
+
     return app
