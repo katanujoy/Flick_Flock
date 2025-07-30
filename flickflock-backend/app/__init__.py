@@ -54,7 +54,7 @@ def create_app():
     api.add_resource(RecommendationResource, '/api/recommendations')
     api.add_resource(RecommendationDetailResource, '/api/recommendations/<int:recommendation_id>')
     api.add_resource(WatchlistResource, '/api/watchlist')
-    api.add_resource(Login, "/api/login")
+    api.add_resource(Login, "/login")
     api.add_resource(MpesaDarajaResource, '/api/mpesa/stkpush')
 
     app.register_blueprint(membership_bp)    
