@@ -27,7 +27,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import MovieCard from "../components/MovieCard";
-import { useApi } from "../contexts/globalendpoints";
+
 import "../styles/Movies.css";
 
 function MoviesListPage() {
