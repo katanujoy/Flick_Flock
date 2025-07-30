@@ -1,5 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import Footer from "./components/footer";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import MoviesListPage from "./pages/MoviesListPage";
 import ExploreClubsPage from "./pages/ExploreClubsPage";
@@ -10,8 +13,8 @@ import MovieForm from "./pages/MovieForm";
 import WatchlistPage from "./pages/WatchlistPage";
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
-import ProfilePage from './pages/ProfilePage';
-
+import ContactForm from "./pages/contact";
+import About from "./pages/about";
 
 // Fake search page until we build it
 function SearchPage() {
@@ -41,11 +44,13 @@ function App() {
 
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/contact" element={<ContactForm />} />
+        <Route path="/about" element={<About />} />
 
         <Route path="/" element={<MoviesListPage />} />
       </Routes>
+
+      <Footer/>
     </Router>
   );
 }
