@@ -103,27 +103,27 @@ export const ApiProvider = ({ children }) => {
 
     //RECOMMENDATIONS
     getRecommendations: () =>
-      fetch(`${API_BASE}/recommendations`, { headers: authHeaders() }).then(handleResponse),
+      fetch(`${API_BASE}/api/recommendations`, { headers: authHeaders() }).then(handleResponse),
 
     getRecommendationById: (id) =>
-      fetch(`${API_BASE}/recommendations/${id}`, { headers: authHeaders() }).then(handleResponse),
+      fetch(`${API_BASE}/api/recommendations/${id}`, { headers: authHeaders() }).then(handleResponse),
 
     createRecommendation: (payload) =>
-      fetch(`${API_BASE}/recommendations`, {
+      fetch(`${API_BASE}/api/recommendations`, {
         method: "POST",
         headers: authHeaders(),
         body: JSON.stringify(payload),
       }).then(handleResponse),
 
     updateRecommendation: (id, payload) =>
-      fetch(`${API_BASE}/recommendations/${id}`, {
+      fetch(`${API_BASE}/api/recommendations/${id}`, {
         method: "PATCH",
         headers: authHeaders(),
         body: JSON.stringify(payload),
       }).then(handleResponse),
 
     deleteRecommendation: (id) =>
-      fetch(`${API_BASE}/recommendations/${id}`, {
+      fetch(`${API_BASE}/api/recommendations/${id}`, {
         method: "DELETE",
         headers: authHeaders(),
       }).then(handleResponse),
