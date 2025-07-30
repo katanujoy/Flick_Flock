@@ -24,7 +24,7 @@ export const ApiProvider = ({ children }) => {
   const api = {
     //AUTH
     loginUser: (payload) =>
-      fetch(`${API_BASE}/login`, {
+      fetch(`${API_BASE}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
