@@ -5,7 +5,6 @@ from sqlalchemy import MetaData
 from flask_cors import CORS
 from flask_restful import Api
 from datetime import timedelta
-
 # Setup metadata naming convention
 metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s"
