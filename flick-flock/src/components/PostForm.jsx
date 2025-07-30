@@ -8,7 +8,7 @@ function PostForm({ clubId, onClose }) {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!movieId || !content || !rating) {
@@ -16,17 +16,45 @@ function PostForm({ clubId, onClose }) {
       return;
     }
 
-    // To be replaced with real API call
-    console.log("Post submitted:", { clubId, movieId, content, rating });
-    setSuccess("Post created!");
-    setError("");
-    setMovieId("");
-    setContent("");
-    setRating("");
+    try {
+      const token = localStorage.getItem("token");
 
-    setTimeout(() => {
-      onClose();
-    }, 1000);
+      const response = await fetch("http://localhost:5000/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          club_id: clubId,
+          movie_series_id: movieId,
+          content,
+          rating: parseFloat(rating),
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to create post.");
+      }
+
+      const data = await response.json();
+      console.log("Post submitted:", data);
+
+      setSuccess("Post created!");
+      setError("");
+      setMovieId("");
+      setContent("");
+      setRating("");
+
+      setTimeout(() => {
+        onClose();
+      }, 1000);
+    } catch (err) {
+      console.error("Error submitting post:", err);
+      setError("Failed to create post.");
+      setSuccess("");
+    }
   };
 
   return (
