@@ -8,3 +8,4 @@ class MovieSeriesSchema(Schema):
     type = fields.Str(required=True, validate=validate.OneOf(["movie", "series"]))
     release_year = fields.Int(allow_none=True)
     poster_url = fields.Str(allow_none=True)
+    download_link = fields.Str(allow_none=True)

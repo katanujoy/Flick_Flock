@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from sqlalchemy import MetaData
 from flask_cors import CORS
 from flask_restful import Api
-
+from datetime import timedelta
 # Setup metadata naming convention
 metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s"
@@ -21,14 +21,11 @@ def create_app():
     app.config["JWT_TOKEN_LOCATION"] = ["headers"]
     app.config["JWT_HEADER_NAME"] = "Authorization"
     app.config["JWT_HEADER_TYPE"] = "Bearer"
-    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 18000
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=30)
 
     db.init_app(app)
     migrate.init_app(app, db)
-
-    # Allow frontend on localhost:5175 to access API with credentials
-    CORS(app, origins=["http://localhost:5175"], supports_credentials=True)
-
+    CORS(app, supports_credentials=True)
     api = Api(app)
 
     from flask_jwt_extended import JWTManager
@@ -42,6 +39,7 @@ def create_app():
     from .routes.watchlists_routes import WatchlistResource
     from .routes.auth_routes import Login
     from .routes.membership_routes import membership_bp
+    from .routes.contact_routes import contact_bp
     from .routes.user_routes import user_bp
     from .routes.follow_routes import follow_bp
     from .routes.movie_routes import movies_bp
@@ -60,6 +58,7 @@ def create_app():
     api.add_resource(MpesaDarajaResource, '/api/mpesa/stkpush')
 
     app.register_blueprint(membership_bp)    
+    app.register_blueprint(contact_bp)    
     app.register_blueprint(user_bp)
     app.register_blueprint(follow_bp)
     app.register_blueprint(movies_bp)

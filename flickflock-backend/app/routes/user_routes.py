@@ -1,13 +1,17 @@
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import create_access_token,jwt_required, get_jwt_identity
+from ..schemas.user_schema import UserSchema
 from app import db
 from ..models.user import User
 
 user_bp = Blueprint('user_bp', __name__, url_prefix='/api/users')
+user_schema = UserSchema(many=True)
 
 @user_bp.route('', methods=['GET'])
+@jwt_required()
 def get_users():
     users = User.query.all()
-    return jsonify([user.username for user in users])
+    return user_schema.dump(users)
 
 @user_bp.route('/<int:id>', methods=['GET', 'PUT', 'PATCH', 'DELETE'])
 def handle_user(id):
@@ -77,14 +81,15 @@ def create_user():
 @user_bp.route('/login', methods=['POST'])
 def login_user():
     data = request.get_json()
-    username = data.get("username")
+    email = data.get("email")  # Changed to email for consistency
     password = data.get("password")
 
-    user = User.query.filter_by(username=username).first()
+    user = User.query.filter_by(email=email).first()
 
     if user and user.check_password(password):
+        access_token = create_access_token(identity=user.id)
         return jsonify({
-            "success": True,
+            "access_token": access_token,
             "user": {
                 "id": user.id,
                 "username": user.username,
@@ -92,6 +97,23 @@ def login_user():
                 "bio": user.bio,
                 "favorite_genres": user.favorite_genres
             }
-        })
+        }), 200
     else:
         return jsonify({"success": False, "message": "Invalid username or password"}), 401
+    
+
+########
+@user_bp.route('/me', methods=['GET'])
+@jwt_required()
+def get_current_user():
+    current_user_id = get_jwt_identity()
+    user = User.query.get_or_404(current_user_id)
+
+    return jsonify({
+        "id": user.id,
+        "username": user.username,
+        "email": user.email,
+        "bio": user.bio,
+        "favorite_genres": user.favorite_genres
+    })
+
