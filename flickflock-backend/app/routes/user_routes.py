@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app import db
 from ..models.user import User
+from flask_jwt_extended import jwt_required, get_jwt_identity  # ✅ Added for /me route
 
 user_bp = Blueprint('user_bp', __name__, url_prefix='/api/users')
 
@@ -95,3 +96,32 @@ def login_user():
         })
     else:
         return jsonify({"success": False, "message": "Invalid username or password"}), 401
+
+# GET and PATCH /api/users/me for logging in users
+@user_bp.route('/me', methods=['GET', 'PATCH'])
+@jwt_required()
+def user_me():
+    current_user_id = get_jwt_identity()
+    user = User.query.get_or_404(current_user_id)
+
+    if request.method == 'GET':
+        return jsonify({
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "bio": user.bio,
+            "favorite_genres": user.favorite_genres
+        })
+
+    elif request.method == 'PATCH':
+        data = request.get_json()
+        if 'username' in data:
+            user.username = data['username']
+        if 'email' in data:
+            user.email = data['email']
+        if 'bio' in data:
+            user.bio = data['bio']
+        if 'favorite_genres' in data:
+            user.favorite_genres = data['favorite_genres']
+        db.session.commit()
+        return jsonify({"msg": "User partially updated"})
