@@ -19,7 +19,7 @@ function PostForm({ clubId, onClose }) {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:5000/posts", {
+      const response = await fetch("http://localhost:5000/api/posts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
