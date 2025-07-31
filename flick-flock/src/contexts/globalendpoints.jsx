@@ -24,7 +24,7 @@ export const ApiProvider = ({ children }) => {
   const api = {
     //AUTH
     loginUser: (payload) =>
-      fetch(`${API_BASE}/login`, {
+      fetch(`${API_BASE}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -49,13 +49,27 @@ export const ApiProvider = ({ children }) => {
 
     //CLUBS
     getClubs: () =>
-      fetch(`${API_BASE}/clubs`, { headers: authHeaders() }).then(handleResponse),
+      fetch(`${API_BASE}/api/clubs`, { headers: authHeaders() }).then(handleResponse),
 
     createClub: (payload) =>
-      fetch(`${API_BASE}/clubs`, {
+      fetch(`${API_BASE}/api/clubs`, {
         method: "POST",
         headers: authHeaders(),
         body: JSON.stringify(payload),
+      }).then(handleResponse),
+
+    updateClub: (payload) =>
+      fetch(`${API_BASE}/api/clubs`, {
+        method: "PATCH",
+        headers: authHeaders(),
+        body: JSON.stringify(payload),
+      }).then(handleResponse),
+
+    deleteClub: (id) =>
+      fetch(`${API_BASE}/api/clubs`, {
+        method: "DELETE",
+        headers: authHeaders(),
+        body: JSON.stringify({ id }),
       }).then(handleResponse),
 
     //COMMENTS
@@ -71,16 +85,30 @@ export const ApiProvider = ({ children }) => {
 
     //POSTS
     getPosts: () =>
-      fetch(`${API_BASE}/posts`, { headers: authHeaders() }).then(handleResponse),
+      fetch(`${API_BASE}/api/posts`, { headers: authHeaders() }).then(handleResponse),
 
     getPost: (postId) =>
-      fetch(`${API_BASE}/posts/${postId}`, { headers: authHeaders() }).then(handleResponse),
+      fetch(`${API_BASE}/api/posts/${postId}`, { headers: authHeaders() }).then(handleResponse),
 
     createPost: (payload) =>
-      fetch(`${API_BASE}/posts`, {
+      fetch(`${API_BASE}/api/posts`, {
         method: "POST",
         headers: authHeaders(),
         body: JSON.stringify(payload),
+      }).then(handleResponse),
+
+    
+    updatePost: (id, payload) =>
+      fetch(`${API_BASE}/api/posts/${id}`, {
+        method: "PATCH",
+        headers: authHeaders(),
+        body: JSON.stringify(payload),
+      }).then(handleResponse),
+
+    deletePost: (id) =>
+      fetch(`${API_BASE}/api/posts/${id}`, {
+        method: "DELETE",
+        headers: authHeaders(),
       }).then(handleResponse),
 
     //WATCHLIST
