@@ -19,17 +19,17 @@ function ExploreClubsPage() {
 
     fetch("http://localhost:5000/api/clubs", {
       headers: {
-        "Authorization": `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     })
-      .then(res => {
+      .then((res) => {
         if (!res.ok) {
           throw new Error(`Server responded with ${res.status}`);
         }
         return res.json();
       })
-      .then(data => setClubs(data))
-      .catch(err => {
+      .then((data) => setClubs(data))
+      .catch((err) => {
         console.warn("API failed, using mock data:", err.message);
         setError("Failed to fetch clubs. Showing mock data instead.");
         setClubs(mockClubs);

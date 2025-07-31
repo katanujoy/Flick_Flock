@@ -21,6 +21,7 @@ import ExploreClubsPage from "./pages/ExploreClubsPage";
 import ClubForm from "./components/ClubForm";
 import ClubDetailsPage from "./pages/ClubDetailsPage";
 import FollowersPage from "./pages/followers";
+import ProfilePage from "./pages/ProfilePage"; // ✅ Added import
 
 // Placeholder page
 const SearchPage = () => (
@@ -43,6 +44,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
 
+          {/* Protected Routes */}
           <Route path="/movies" element={<ProtectedRoute><MoviesListPage /></ProtectedRoute>} />
           <Route path="/movie/:id" element={<ProtectedRoute><MovieDetailsPage /></ProtectedRoute>} />
           <Route path="/movies/new" element={<ProtectedRoute><MovieForm /></ProtectedRoute>} />
@@ -52,6 +54,7 @@ function App() {
           <Route path="/club/:id" element={<ProtectedRoute><ClubDetailsPage /></ProtectedRoute>} />
           <Route path="/followers" element={<ProtectedRoute><FollowersPage /></ProtectedRoute>} />
           <Route path="/search" element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
+          <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} /> {/* ✅ New Route */}
         </Routes>
 
         <Footer />

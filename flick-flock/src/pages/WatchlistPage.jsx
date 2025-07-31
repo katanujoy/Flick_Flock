@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { mockWatchlist } from "../mock/watchlist";
 import { mockMovies } from "../mock/movies";
-import "../styles/Movies.css";
+import "../styles/WatchList.css";
 
 function WatchlistPage() {
   const [watchlist, setWatchlist] = useState(mockWatchlist);

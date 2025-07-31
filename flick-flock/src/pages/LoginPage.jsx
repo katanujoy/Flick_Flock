@@ -4,6 +4,7 @@ import { Container, Form, Button, Card } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import { useAuth } from '../contexts/authcontext';
 import { useApi } from '../contexts/globalendpoints';
+import '../styles/LoginPage.css'; 
 
 function LoginPage() {
   const [email, setEmail] = useState('');

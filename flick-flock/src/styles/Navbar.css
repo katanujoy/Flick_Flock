@@ -2,34 +2,34 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #111;
-  color: #f5f5f5;
+  background-color: #000; /* Changed to pure black */
+  color: #fff; /* Changed to pure white */
   padding: 1rem 2rem;
   font-family: 'Poppins', sans-serif;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Changed shadow to white */
 }
 
 .navbar-left a,
 .navbar-auth a {
   margin: 0 0.8rem;
   text-decoration: none;
-  color: #f5f5f5;
+  color: #fff; /* Changed to pure white */
   font-weight: 500;
   transition: all 0.3s ease;
 }
 
-.navbar-left a:hover,
+.navbar-left a:not(.app-name):hover,
 .navbar-auth a:hover {
-  color: #ffd700; 
+  color: #ff0000; /* Changed to red */
   border-radius: 20px;
-  border: 1px solid #ffd700;
+  border: 1px solid #ff0000; /* Changed to red */
   padding: 7px;
 }
 
 .logo {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #ffd700;
+  color: #fff; /* Changed to white */
 }
 
 .navbar-search input {
@@ -50,7 +50,7 @@
 .navbar-search input:focus {
   outline: none;
   background-color: #333;
-  box-shadow: 0 0 5px #ffd700;
+  box-shadow: 0 0 5px #fff; /* Changed to white */
 }
 
 .navbar-auth .login-btn,
@@ -62,22 +62,18 @@
 }
 
 .navbar-auth .login-btn {
-  border: 1px solid #ffd700;
+  border: 1px solid #fff; /* Changed to white */
 }
 
 .navbar-auth .signup-btn {
-  background-color: #ffd700;
-  color: #111;
+  background-color: #fff; /* Changed to white */
+  color: #000; /* Changed to black */
   margin-left: 0.5rem;
 }
 
 .navbar-auth .signup-btn:hover {
-  background-color: #e0c200;
-}
-
-.navbar-auth .login-btn:hover {
-  background-color: #ffd700;
-  color: #111;
+  background-color: #ff0000; /* Changed to red */
+  color: #fff;
 }
 
 .logout-btn {
@@ -91,16 +87,28 @@
 }
 
 .navbar-auth .logout-btn:hover {
-  border: 1px solid #ffd700;
-  color: #ffd700; 
+  border: 1px solid #ff0000; /* Changed to red */
+  color: #ff0000; /* Changed to red */
 }
-
 
 .welcome-msg {
   color: #fff;
   margin-right: 10px;
 }
 
+.app-name {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #ff0000; /* Stand-out color */
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+  cursor: default;
+}
+
+.app-name:hover {
+  color: #ff0000;
+  border: none;
+  padding: 0;
+}
 
 /* Responsive */
 @media (max-width: 768px) {
