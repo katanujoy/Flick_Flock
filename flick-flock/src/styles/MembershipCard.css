@@ -1,0 +1,73 @@
+.membership-card {
+  background-color: #1a1a1a;
+  color: #f2f2f2;
+  border: 2px solid #e50914;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 420px;
+  border-radius: 12px;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0 0 25px rgba(229, 9, 20, 0.5);
+  transition: all 0.3s ease;
+}
+
+.membership-card h1,
+.membership-card h3 {
+  color: #e50914;
+  margin-bottom: 1.2rem;
+}
+
+.membership-card input,
+.membership-card button {
+  width: 90%;
+  padding: 0.6rem;
+  margin: 0.5rem 0;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+}
+
+.membership-card input {
+  background-color: #2a2a2a;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+.membership-card button {
+  background-color: #e50914;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.membership-card button:hover {
+  background-color: #ff1f1f;
+}
+
+.membership-card .badge {
+  background-color: #ff1f1f;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+  margin: 1rem 0;
+}
+
+.membership-card .genre {
+  font-style: italic;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.membership-card .success {
+  color: #4caf50;
+  margin-top: 1rem;
+}
+
+.membership-card .error {
+  color: #f44336;
+  margin-top: 1rem;
+}

@@ -2,11 +2,13 @@ import { Link, useNavigate } from "react-router-dom";
 import "../styles/Navbar.css";
 import { useState } from "react";
 import { useAuth } from "../contexts/authcontext";
+// Optional: use an icon library instead
+// import { User } from 'lucide-react'; // if you're using lucide
 
 function Navbar() {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
-  const { user, logout } = useAuth(); 
+  const { user, logout } = useAuth();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -24,7 +26,7 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <Link to="/" className="logo">🎬 FlickFlock</Link>
+        <Link to="/" className="logo">FlickFlock</Link>
         <Link to="/">Home</Link>
         <Link to="/movies">Movies</Link>
         <Link to="/clubs">Clubs</Link>
@@ -46,6 +48,10 @@ function Navbar() {
       <div className="navbar-auth">
         {user ? (
           <>
+            <Link to="/profile" className="profile-link" title="Your Profile">
+              👤
+              {/* Or use an icon component: <User size={20} /> */}
+            </Link>
             <span className="welcome-msg">Hi, {user.username}</span>
             <button onClick={handleLogout} className="logout-btn">Logout</button>
           </>
@@ -61,5 +67,3 @@ function Navbar() {
 }
 
 export default Navbar;
-
-

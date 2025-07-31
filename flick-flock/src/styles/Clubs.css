@@ -118,11 +118,15 @@ a, a:visited, a:hover, a:active {
   margin-bottom: 2rem;
 }
 
-/* Club Buttons */
+/* Button Styles */
 .join-btn,
 .leave-btn,
-.add-button {
+.add-button,
+.membership-btn,
+.view-all,
+.club-form button[type="submit"] {
   padding: 0.8rem 1.5rem;
+  border: none;
   border-radius: 4px;
   font-weight: 600;
   font-size: 0.95rem;
@@ -130,42 +134,75 @@ a, a:visited, a:hover, a:active {
   transition: all 0.3s ease;
   margin-right: 1rem;
   margin-bottom: 1rem;
-  border: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+}
+
+.join-btn,
+.club-form button[type="submit"] {
+  background-color: var(--primary);
   color: var(--white);
 }
 
-.join-btn {
-  background-color: var(--primary);
-}
-
-.join-btn:hover {
+.join-btn:hover,
+.club-form button[type="submit"]:hover {
   background-color: var(--primary-dark);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(229, 9, 20, 0.3);
 }
 
 .leave-btn {
-  background-color: transparent;
-  color: var(--primary);
-  border: 1px solid var(--primary);
+  background-color: var(--medium-gray);
+  color: var(--white);
 }
 
 .leave-btn:hover {
-  background-color: rgba(229, 9, 20, 0.1);
+  background-color: var(--dark-gray);
   transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 .add-button {
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: var(--success);
+  color: var(--white);
 }
 
 .add-button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #3d8b40;
   transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+}
+
+.membership-btn {
+  background: linear-gradient(135deg, var(--primary) 0%, #ff6b6b 100%);
+  color: var(--white);
+}
+
+.membership-btn:hover {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, #e55c5c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(229, 9, 20, 0.3);
+}
+
+.view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary);
+  font-weight: 600;
+  background: none;
+  padding: 0;
+}
+
+.view-all:hover {
+  color: var(--primary-dark);
+  transform: translateX(3px);
+}
+
+/* Button Group Styles */
+.club-details .button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 /* Club Form */
@@ -204,25 +241,6 @@ a, a:visited, a:hover, a:active {
 .club-form textarea {
   min-height: 120px;
   resize: vertical;
-}
-
-.club-form button[type="submit"] {
-  background-color: var(--primary);
-  color: var(--white);
-  padding: 0.8rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
-}
-
-.club-form button[type="submit"]:hover {
-  background-color: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(229, 9, 20, 0.3);
 }
 
 /* Status Messages */
@@ -273,26 +291,6 @@ a, a:visited, a:hover, a:active {
   padding: 1rem 0;
 }
 
-/* View All "link" that's actually a button */
-.view-all {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--primary);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background: none;
-  border: none;
-  padding: 0;
-  font: inherit;
-}
-
-.view-all:hover {
-  color: var(--primary-dark);
-  transform: translateX(3px);
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
   .club-details,
@@ -309,6 +307,15 @@ a, a:visited, a:hover, a:active {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 1.5rem;
   }
+
+  .join-btn,
+  .leave-btn,
+  .add-button,
+  .membership-btn,
+  .club-form button[type="submit"] {
+    width: 100%;
+    margin-right: 0;
+  }
 }
 
 @media (max-width: 480px) {
@@ -320,12 +327,5 @@ a, a:visited, a:hover, a:active {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
-  }
-  
-  .join-btn,
-  .leave-btn,
-  .add-button {
-    width: 100%;
-    margin-right: 0;
   }
 }
