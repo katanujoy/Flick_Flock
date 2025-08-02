@@ -16,7 +16,7 @@ function ClubForm() {
   const handleSubmit = e => {
     e.preventDefault();
     console.log("Pretend to send to backend:", formData);
-    setMessage("Club created! (This is a mock)");
+    setMessage("Club created!)");
     setFormData({ name: "", description: "", genre: "" });
   };
 

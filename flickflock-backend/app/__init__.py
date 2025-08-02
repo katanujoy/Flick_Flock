@@ -5,6 +5,8 @@ from sqlalchemy import MetaData
 from flask_cors import CORS
 from flask_restful import Api
 from datetime import timedelta
+from flask_jwt_extended import JWTManager
+
 # Setup metadata naming convention
 metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s"
@@ -17,21 +19,29 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object('app.config.Config')
 
-    app.config["JWT_SECRET_KEY"] = "supersecretkey"  
+    # JWT Configuration
+    app.config["JWT_SECRET_KEY"] = "supersecretkey"
     app.config["JWT_TOKEN_LOCATION"] = ["headers"]
     app.config["JWT_HEADER_NAME"] = "Authorization"
     app.config["JWT_HEADER_TYPE"] = "Bearer"
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=30)
 
+    # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
-    CORS(app, supports_credentials=True)
-    api = Api(app)
-
-    from flask_jwt_extended import JWTManager
     jwt = JWTManager(app)
 
-    # Import routes/resources
+    # ✅ CORS setup: allow frontend dev server (Vite) to make requests
+    CORS(
+        app,
+        resources={r"/api/*": {"origins": "http://localhost:5175"}},
+        supports_credentials=True
+    )
+
+    # Setup RESTful API
+    api = Api(app)
+
+    # Import resources & blueprints
     from .routes.club_routes import ClubResource
     from .routes.comment_routes import CommentResource
     from .routes.post_routes import PostResource, PostDetailResource
@@ -46,7 +56,7 @@ def create_app():
     from .routes.report_routes import report_bp
     from .routes.mpesadaraja_routes import MpesaDarajaResource
 
-    # Use /api prefix for RESTful consistency
+    # Add API endpoints
     api.add_resource(ClubResource, '/api/clubs')
     api.add_resource(CommentResource, '/api/comments')
     api.add_resource(PostResource, '/api/posts')
@@ -54,11 +64,12 @@ def create_app():
     api.add_resource(RecommendationResource, '/api/recommendations')
     api.add_resource(RecommendationDetailResource, '/api/recommendations/<int:recommendation_id>')
     api.add_resource(WatchlistResource, '/api/watchlist')
-    api.add_resource(Login, "/login")
+    api.add_resource(Login, "/api/login")  # ✅ Updated to have /api prefix
     api.add_resource(MpesaDarajaResource, '/api/mpesa/stkpush')
 
-    app.register_blueprint(membership_bp)    
-    app.register_blueprint(contact_bp)    
+    # Register blueprints
+    app.register_blueprint(membership_bp)
+    app.register_blueprint(contact_bp)
     app.register_blueprint(user_bp)
     app.register_blueprint(follow_bp)
     app.register_blueprint(movies_bp)
