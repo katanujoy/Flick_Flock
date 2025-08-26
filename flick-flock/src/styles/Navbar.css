@@ -1,0 +1,129 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #000; /* Changed to pure black */
+  color: #fff; /* Changed to pure white */
+  padding: 1rem 2rem;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); /* Changed shadow to white */
+}
+
+.navbar-left a,
+.navbar-auth a {
+  margin: 0 0.8rem;
+  text-decoration: none;
+  color: #fff; /* Changed to pure white */
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.navbar-left a:not(.app-name):hover,
+.navbar-auth a:hover {
+  color: #ff0000; /* Changed to red */
+  border-radius: 20px;
+  border: 1px solid #ff0000; /* Changed to red */
+  padding: 7px;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff; /* Changed to white */
+}
+
+.navbar-search input {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 30px;
+  background-color: #222;
+  color: white;
+  font-size: 0.95rem;
+  width: 200px;
+  transition: 0.3s ease;
+}
+
+.navbar-search input::placeholder {
+  color: #888;
+}
+
+.navbar-search input:focus {
+  outline: none;
+  background-color: #333;
+  box-shadow: 0 0 5px #fff; /* Changed to white */
+}
+
+.navbar-auth .login-btn,
+.navbar-auth .signup-btn {
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  transition: 0.3s ease;
+}
+
+.navbar-auth .login-btn {
+  border: 1px solid #fff; /* Changed to white */
+}
+
+.navbar-auth .signup-btn {
+  background-color: #fff; /* Changed to white */
+  color: #000; /* Changed to black */
+  margin-left: 0.5rem;
+}
+
+.navbar-auth .signup-btn:hover {
+  background-color: #ff0000; /* Changed to red */
+  color: #fff;
+}
+
+.logout-btn {
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 20px;
+  padding: 5px 10px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.navbar-auth .logout-btn:hover {
+  border: 1px solid #ff0000; /* Changed to red */
+  color: #ff0000; /* Changed to red */
+}
+
+.welcome-msg {
+  color: #fff;
+  margin-right: 10px;
+}
+
+.app-name {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #ff0000; /* Stand-out color */
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+  cursor: default;
+}
+
+.app-name:hover {
+  color: #ff0000;
+  border: none;
+  padding: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .navbar-left, .navbar-auth {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .navbar-search input {
+    width: 100%;
+    max-width: 300px;
+  }
+}

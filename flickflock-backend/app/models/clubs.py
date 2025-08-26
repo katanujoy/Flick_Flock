@@ -1,9 +1,12 @@
 from app import db
 from sqlalchemy import func
-from sqlalchemy_serializer import Serializermixin
+from sqlalchemy_serializer import SerializerMixin
 
-class Club(db.Model, Serializermixin):
+class Club(db.Model, SerializerMixin):
     __tablename__ = "clubs"
+
+    # Exclude non-serializable relationships from automatic serialization
+    serialize_rules = ("-user", "-posts", "-memberships")
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
@@ -12,13 +15,13 @@ class Club(db.Model, Serializermixin):
     created_by = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     created_at = db.Column(db.DateTime, default=func.now())
 
-
     # Relationships
     user = db.relationship("User", back_populates="clubs")
     posts = db.relationship("Post", back_populates="club", cascade="all, delete-orphan")
     memberships = db.relationship("Membership", back_populates="club", cascade="all, delete-orphan")
 
-
-
     def __repr__(self):
-        return f"<Club id={self.id}, name={self.name}, description={self.description}, genre={self.genre}, created_by={self.created_by}, created_at={self.created_at}>"
+        return (
+            f"<Club id={self.id}, name={self.name}, description={self.description}, "
+            f"genre={self.genre}, created_by={self.created_by}, created_at={self.created_at}>"
+        )

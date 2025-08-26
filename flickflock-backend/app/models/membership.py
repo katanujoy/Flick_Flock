@@ -13,3 +13,14 @@ class Membership(db.Model):
     # Relationships
     user = db.relationship("User", back_populates="memberships")
     club = db.relationship("Club", back_populates="memberships")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "username": self.user.username if self.user else None,
+            "club_id": self.club_id,
+            "club_name": self.club.name if self.club else None,
+            "role": self.role,
+            "joined_at": self.joined_at.isoformat() if self.joined_at else None
+        }
